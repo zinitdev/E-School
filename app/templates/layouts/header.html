@@ -5,7 +5,7 @@
 	<div class="container">
 		<a
 			class="navbar-brand"
-			href="#"
+			href="{{ url_for('home') }}"
 			>E-School</a
 		>
 		<button
@@ -27,7 +27,7 @@
 				<li class="nav-item">
 					<a
 						class="nav-link active"
-						href="#"
+						href="{{ url_for('home') }}"
 						>Home
 						<span class="visually-hidden">(current)</span>
 					</a>
@@ -43,11 +43,13 @@
 						>Categories</a
 					>
 					<div class="dropdown-menu">
+						{% for c in categories %}
 						<a
 							class="dropdown-item"
 							href="#"
-							>Action</a
+							>{{ c }}</a
 						>
+						{% endfor %}
 						<div class="dropdown-divider"></div>
 						<a
 							class="dropdown-item"
