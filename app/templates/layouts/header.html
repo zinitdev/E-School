@@ -46,7 +46,7 @@
 						{% for c in categories %}
 						<a
 							class="dropdown-item"
-							href="#"
+							href="{{ url_for('details', grade_id=c.id) }}"
 							>{{ c }}</a
 						>
 						{% endfor %}
@@ -71,10 +71,14 @@
 					>
 				</li>
 			</nav>
-			<form class="d-flex">
+			<form
+				class="d-flex"
+				action="{{ url_for('students') }}"
+			>
 				<input
 					class="form-control me-sm-2"
 					type="search"
+					name="keyword"
 					placeholder="Search E-School"
 				/>
 				<button

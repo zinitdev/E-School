@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %} {% block content %}
+<section class="py-2">
+	<h1>{{ grade }}</h1>
+
+	<ul>
+		{% for c in grade.classes %}
+		<li>
+			<a href="{{ url_for('class_details', class_id=c.id) }}">
+				{{ c.name }}
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+</section>
+{% endblock %}

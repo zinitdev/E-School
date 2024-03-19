@@ -1,0 +1,9 @@
+{% extends 'layouts/base.html' %} {% block content %}
+<section class="py-2">
+	<ul>
+		{% for s in students %}
+		<li>{{ s.first_name }}</li>
+		{% endfor %}
+	</ul>
+</section>
+{% endblock %}
