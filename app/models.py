@@ -1,14 +1,22 @@
 import enum
 from app import db
+from flask_login import UserMixin
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey, Enum, Text, Float
 from sqlalchemy.orm import relationship
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class GenderEnum(enum.Enum):
     FEMALE = 'Female'
     MALE = 'Male'
 
+
+class RoleEnum(enum.Enum):
+    ADMIN = 'Administrator'
+    USER = 'User'
+    STAFF = 'Staff'
+    
 
 class CommonModel(db.Model):
     __abstract__ = True
@@ -21,13 +29,32 @@ class CommonModel(db.Model):
 class InforModel(CommonModel):
     __abstract__ = True
     
-    first_name = Column(String(80))
-    last_name = Column(String(80))
-    address = Column(Text)
+    first_name = Column(String(80), nullable=True)
+    last_name = Column(String(80), nullable=True)
+    address = Column(Text, nullable=True)
     gender = Column(Enum(GenderEnum), default=GenderEnum.MALE)
     avatar = Column(Text, default=None)
-    phone = Column(String(10), nullable=False)
-    email = Column(String(125), unique=True, nullable=False)
+    phone = Column(String(10), nullable=True)
+    email = Column(String(125), unique=True, nullable=True)
+    
+
+class User(InforModel, UserMixin):
+    avatar = Column(Text, default=None)
+    username = Column(String(80), nullable=False, unique=True)
+    password = Column(String(100), nullable=False)
+    role = Column(Enum(RoleEnum), default=RoleEnum.USER)
+
+    def __str__(self):
+        return self.username
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+    def is_admin(self):
+        return self.role == RoleEnum.ADMIN
     
 
 class Grade(CommonModel):

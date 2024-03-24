@@ -1,5 +1,17 @@
-from app.models import Grade, Class, Student
+from app.models import Grade, Class, Student, User
 from app import db
+
+
+def load_users(user_id):
+    return User.query.filter(User.active.__eq__(True)).first()
+
+
+def load_user_by_email(email):
+    return User.query.filter(User.email.contains(email)).first()
+
+
+def load_user_by_username(username):
+    return User.query.filter(User.username.contains(username)).first()
 
 
 def load_grades():
@@ -35,3 +47,20 @@ def load_grade(grade_id):
 
 def load_class(class_id):
     return Class.query.get_or_404(class_id)
+
+
+def create_user(data):
+    user = User(**data)
+    user.set_password(data.get('password'))
+
+    db.session.add(user)
+    db.session.commit()
+
+    return user
+
+
+def check_auth(data):
+    user = User.query.filter(User.username.__eq__(data.get('username'))).first()
+    if user and user.check_password(password=data.get('password')):
+        return user
+    return None

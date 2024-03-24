@@ -1,0 +1,51 @@
+{% extends 'admin/master.html' %} {% block body %} {% if current_user.is_authenticated and current_user.is_admin() %}
+<h1 class="text-center">Welcome to E-School Administrator Site!</h1>
+
+<p>Hi, {{ current_user.username }}!</p>
+{% else %}
+<section class="row py-3">
+	<div class="container col-lg-6">
+		<h1>Log In</h1>
+		<form
+			method="post"
+			action="{{ url_for('login_admin') }}"
+		>
+			<div class="mb-3 mt-3">
+				<label
+					for="email"
+					class="form-label"
+					>Email</label
+				>
+				<input
+					type="text"
+					class="form-control"
+					id="email"
+					placeholder="Enter your email address"
+					name="username"
+				/>
+			</div>
+			<div class="mb-3">
+				<label
+					for="pwd"
+					class="form-label"
+					>Password</label
+				>
+				<input
+					type="password"
+					class="form-control"
+					id="pwd"
+					placeholder="Enter your password"
+					name="pwd"
+				/>
+			</div>
+			<button
+				type="submit"
+				class="btn btn-primary"
+			>
+				Log In
+			</button>
+		</form>
+	</div>
+</section>
+
+{% endif %} {% endblock %}

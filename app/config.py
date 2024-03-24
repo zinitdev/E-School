@@ -9,3 +9,6 @@ class Config(object):
 
     # Administrator
     FLASK_ADMIN_SWATCH = 'lux'
+
+    # DEBUG
+    DEBUG = True
